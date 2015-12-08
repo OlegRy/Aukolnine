@@ -1,0 +1,779 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details,
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+
+/* font-family: "OpenSansRegular"; */
+@font-face {
+    font-family: "OpenSansRegular";
+    src: url("../fonts/OpenSansRegular/OpenSansRegular.eot");
+    src: url("../fonts/OpenSansRegular/OpenSansRegular.eot?#iefix")format("embedded-opentype"),
+    url("../fonts/OpenSansRegular/OpenSansRegular.woff") format("woff"),
+    url("../fonts/OpenSansRegular/OpenSansRegular.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+
+/* font-family: "OpenSansLight"; */
+@font-face {
+    font-family: "OpenSansLight";
+    src: url("../fonts/OpenSansLight/OpenSansLight.eot");
+    src: url("../fonts/OpenSansLight/OpenSansLight.eot?#iefix")format("embedded-opentype"),
+    url("../fonts/OpenSansLight/OpenSansLight.woff") format("woff"),
+    url("../fonts/OpenSansLight/OpenSansLight.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+
+/* font-family: "OpenSansLightItalic"; */
+@font-face {
+    font-family: "OpenSansLightItalic";
+    src: url("../fonts/OpenSansLightItalic/OpenSansLightItalic.eot");
+    src: url("../fonts/OpenSansLightItalic/OpenSansLightItalic.eot?#iefix")format("embedded-opentype"),
+    url("../fonts/OpenSansLightItalic/OpenSansLightItalic.woff") format("woff"),
+    url("../fonts/OpenSansLightItalic/OpenSansLightItalic.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+
+/* font-family: "OpenSansItalic"; */
+@font-face {
+    font-family: "OpenSansItalic";
+    src: url("../fonts/OpenSansItalic/OpenSansItalic.eot");
+    src: url("../fonts/OpenSansItalic/OpenSansItalic.eot?#iefix")format("embedded-opentype"),
+    url("../fonts/OpenSansItalic/OpenSansItalic.woff") format("woff"),
+    url("../fonts/OpenSansItalic/OpenSansItalic.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+
+/* font-family: "OpenSansBold"; */
+@font-face {
+    font-family: "OpenSansBold";
+    src: url("../fonts/OpenSansBold/OpenSansBold.eot");
+    src: url("../fonts/OpenSansBold/OpenSansBold.eot?#iefix")format("embedded-opentype"),
+    url("../fonts/OpenSansBold/OpenSansBold.woff") format("woff"),
+    url("../fonts/OpenSansBold/OpenSansBold.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+
+/* font-family: "OpenSansExtraBold"; */
+@font-face {
+    font-family: "OpenSansExtraBold";
+    src: url("../fonts/OpenSansExtraBold/OpenSansExtraBold.eot");
+    src: url("../fonts/OpenSansExtraBold/OpenSansExtraBold.eot?#iefix")format("embedded-opentype"),
+    url("../fonts/OpenSansExtraBold/OpenSansExtraBold.woff") format("woff"),
+    url("../fonts/OpenSansExtraBold/OpenSansExtraBold.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+
+/* font-family: "OpenSansExtraBoldItalic"; */
+@font-face {
+    font-family: "OpenSansExtraBoldItalic";
+    src: url("../fonts/OpenSansExtraBoldItalic/OpenSansExtraBoldItalic.eot");
+    src: url("../fonts/OpenSansExtraBoldItalic/OpenSansExtraBoldItalic.eot?#iefix")format("embedded-opentype"),
+    url("../fonts/OpenSansExtraBoldItalic/OpenSansExtraBoldItalic.woff") format("woff"),
+    url("../fonts/OpenSansExtraBoldItalic/OpenSansExtraBoldItalic.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+
+/* font-family: "OpenSansBoldItalic"; */
+@font-face {
+    font-family: "OpenSansBoldItalic";
+    src: url("../fonts/OpenSansBoldItalic/OpenSansBoldItalic.eot");
+    src: url("../fonts/OpenSansBoldItalic/OpenSansBoldItalic.eot?#iefix")format("embedded-opentype"),
+    url("../fonts/OpenSansBoldItalic/OpenSansBoldItalic.woff") format("woff"),
+    url("../fonts/OpenSansBoldItalic/OpenSansBoldItalic.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+
+/* font-family: "OpenSansRegularItalic"; */
+@font-face {
+    font-family: "OpenSansRegularItalic";
+    src: url("../fonts/OpenSansRegularItalic/OpenSansRegularItalic.eot");
+    src: url("../fonts/OpenSansRegularItalic/OpenSansRegularItalic.eot?#iefix")format("embedded-opentype"),
+    url("../fonts/OpenSansRegularItalic/OpenSansRegularItalic.woff") format("woff"),
+    url("../fonts/OpenSansRegularItalic/OpenSansRegularItalic.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+
+/* font-family: "OpenSansSemiBold"; */
+@font-face {
+    font-family: "OpenSansSemiBold";
+    src: url("../fonts/OpenSansSemiBold/OpenSansSemiBold.eot");
+    src: url("../fonts/OpenSansSemiBold/OpenSansSemiBold.eot?#iefix")format("embedded-opentype"),
+    url("../fonts/OpenSansSemiBold/OpenSansSemiBold.woff") format("woff"),
+    url("../fonts/OpenSansSemiBold/OpenSansSemiBold.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+
+/* font-family: "OpenSansSemiBoldItalic"; */
+@font-face {
+    font-family: "OpenSansSemiBoldItalic";
+    src: url("../fonts/OpenSansSemiBoldItalic/OpenSansSemiBoldItalic.eot");
+    src: url("../fonts/OpenSansSemiBoldItalic/OpenSansSemiBoldItalic.eot?#iefix")format("embedded-opentype"),
+    url("../fonts/OpenSansSemiBoldItalic/OpenSansSemiBoldItalic.woff") format("woff"),
+    url("../fonts/OpenSansSemiBoldItalic/OpenSansSemiBoldItalic.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+
+/* font-family: "RobotoSlabRegular"; */
+@font-face {
+    font-family: "RobotoSlabRegular";
+    src: url("../fonts/RobotoSlabRegular/RobotoSlabRegular.eot");
+    src: url("../fonts/RobotoSlabRegular/RobotoSlabRegular.eot?#iefix")format("embedded-opentype"),
+    url("../fonts/RobotoSlabRegular/RobotoSlabRegular.woff") format("woff"),
+    url("../fonts/RobotoSlabRegular/RobotoSlabRegular.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+
+/* font-family: "RobotoSlabLight"; */
+@font-face {
+    font-family: "RobotoSlabLight";
+    src: url("../fonts/RobotoSlabLight/RobotoSlabLight.eot");
+    src: url("../fonts/RobotoSlabLight/RobotoSlabLight.eot?#iefix")format("embedded-opentype"),
+    url("../fonts/RobotoSlabLight/RobotoSlabLight.woff") format("woff"),
+    url("../fonts/RobotoSlabLight/RobotoSlabLight.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+
+/* font-family: "RobotoSlabBold"; */
+@font-face {
+    font-family: "RobotoSlabBold";
+    src: url("../fonts/RobotoSlabBold/RobotoSlabBold.eot");
+    src: url("../fonts/RobotoSlabBold/RobotoSlabBold.eot?#iefix")format("embedded-opentype"),
+    url("../fonts/RobotoSlabBold/RobotoSlabBold.woff") format("woff"),
+    url("../fonts/RobotoSlabBold/RobotoSlabBold.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+
+
+body {
+	background-color: #DCDCDC;
+	font-family: "OpenSansRegular", Arial, "Helvetica CY", "Nimbus Sans L", sans-serif;
+}
+
+.container {
+	width: 950px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.header {
+	height: 70px;
+	background-color: #2D2D2D;
+}
+
+.logo, .header-contact, .authorization,
+.login, .registration {
+	display: inline-block;
+}
+
+.logo {
+	float: left;
+	width: 173px;
+	padding-left: 38px;
+	font-family: "OpenSansBold", Arial, "Helvetica CY", "Nimbus Sans L", sans-serif;
+	line-height: 70px;
+	font-size: 30px;
+	color: #FFFFFF;
+}
+
+.logo-link{
+	text-decoration: none;
+	color: #FFFFFF;
+}
+
+.header-contact {
+	width: 528px;
+	margin-top: 10px;
+	text-align: center;
+}
+
+.header-phone {
+	font-size: 20px;
+	color: #FFFFFF;
+}
+
+.header-phone-notation {
+	font-family: "OpenSansLight", Arial, "Helvetica CY", "Nimbus Sans L", sans-serif;
+	font-size: 14px;
+	color: #646464;
+}
+
+.authorization {
+	float: right;
+	width: 211px;
+	height: 40px;
+	margin-top: 15px;
+	margin-bottom: 15px;
+	font-family: "OpenSansLight", Arial, "Helvetica CY", "Nimbus Sans L", sans-serif;
+	font-size: 14px;
+	color: #FFFFFF;
+	line-height: 40px;
+}
+
+.authorization-block{
+	display: inline-block;
+	width: 100px;
+	height: 40px;
+	border-left: 1px solid #424242;
+	text-align: center;
+}
+
+.authorization-link{
+	text-decoration: none;
+	color: #FFFFFF;
+}
+
+.login-btn {
+	padding: 3px 20px;
+	background-color: #424242;
+	border-radius: 30px;
+}
+
+.main-menu {
+	height: 40px;
+	background-color: #3b3b3b;
+}
+
+.main-menu-block {
+	width: 700px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.main-menu-link {
+	display: inline-block;
+	margin-top: 10px;
+	padding: 0 5px;
+	font-family: "OpenSansBold", Arial, "Helvetica CY", "Nimbus Sans L", sans-serif;
+	font-size: 12px;
+	line-height: 20px;
+	color: #a9a9a9;
+	border-left: 1px solid #5a404e;
+}
+
+.main-menu-link:nth-child(1) {
+	border-left: none;
+}
+
+.main-menu-link a {
+	text-decoration: none;
+	color: #a9a9a9;
+}
+
+.slider-main {
+	min-width: 950px;
+	height: 580px;
+	background-image: url("../images/abstract-minimal-wallpaper.jpg");
+	background-size: 100%;
+}
+
+.slider-first {
+	padding-top: 30px;
+	padding-right: 100px;
+}
+
+.slider-first img {
+	position: absolute;
+	right: 50px;
+	z-index: 1;
+	width: 600px;
+	height: 520px;
+	-webkit-box-reflect: below -50px  -webkit-gradient(linear, left top, left bottom, from(transparent),  color-stop(89%, transparent) , to(rgba(250, 250, 250, 0.5)));
+}
+
+.slider-text {
+	width: 500px;
+	margin-top: 100px;
+	margin-left: 20px;
+	padding-top: 40px;
+	padding-bottom: 40px;
+	background-color: rgba(61, 61, 61, 0.3);
+	text-align: center;
+}
+
+.slider-text p {
+	font-family: "RobotoSlabBold", Arial, "Helvetica CY", "Nimbus Sans L", sans-serif;
+	font-size: 48px;
+	color: #FFFFFF;
+	line-height: 60px;
+}
+
+.slider-btn {
+	width: 135px;
+	height: 30px;
+	margin-top: 22px;
+	margin-left: 190px;
+	background-color: #FFFFFF;
+	border-radius: 50px;
+	font-family: "RobotoSlabLight", Arial, "Helvetica CY", "Nimbus Sans L", sans-serif;
+	font-size: 12px;
+	line-height: 30px;
+	text-align: center;
+}
+
+.slider-btn a {
+	text-decoration: none;
+	color: #000000;
+}
+
+.secondary-menu {
+	min-width: 950px;
+	min-height: 250px;
+	background-color: #FFFFFF;
+}
+
+.secondary-menu-container {
+	text-align: center;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.secondary-menu-block {
+	display: inline-block;
+	width: 32%;
+	min-height: 250px;
+	border-radius: 10px;
+	font-family: "RobotoSlabRegular", Arial, "Helvetica CY", "Nimbus Sans L", sans-serif;
+	font-size: 36px;
+	line-height: 250px;
+	text-decoration: none;
+	color: #FFFFFF;
+}
+
+.secondary-menu-auction {
+	background-image: url("../images/94146009.jpg");
+	background-size: cover;
+}
+
+.secondary-menu-my-auction {
+	margin-left: 10px;
+	margin-right: 10px;
+	background-image: url("../images/4Q1BFBedDzs.jpg");
+	background-size: cover;
+}
+
+.secondary-menu-game-zone {
+	background-image: url("../images/aHR0cDovL2Fzc2V0cy52ZzI0Ny5jb20vY3VycmVudC8vMjAxNC8wOC9kb3RhLTItb2ZmaWNpYWwuanBn.jpg");
+	background-size: 190%;
+	background-position: center;
+}
+
+.products-block {
+	display: inline-block;
+	margin-top: 15px;
+	width: 181px;
+	height: 281px;
+	background-color: #f5f5f5;
+	border-radius: 2px;
+}
+
+.products-block-figure{
+	display: inline-block;
+	width: 181px;
+	height: 164px;
+	background-color: #FFFFFF;
+	text-align: center;
+}
+
+.products-img {
+	margin-top: 10px;
+	height: 114px;
+	-webkit-box-reflect: below -10px  -webkit-gradient(linear, left top, left bottom, from(transparent),  color-stop(80%, transparent) , to(rgba(250, 250, 250, 0.5)));
+}
+
+.products-block-figurecaption {
+	float: left;
+	padding-left: 10px;
+	width: 171px;
+	height: 26px;
+	font-family: "RobotoSlabRegular", Arial, "Helvetica CY", "Nimbus Sans L", sans-serif;
+	font-size: 10px;
+	line-height: 26px;
+	color: #000000;
+	text-align: left;
+}
+
+.products-block-figurecaption-img {
+	float: right;
+	display: inline-block;
+	margin-top: 2px;
+	margin-right: 5px;
+	width: 20px;
+	height: 20px;
+	background-image: url("../images/Shopping-Cart-icon.png");
+	background-size: cover;
+	opacity: 0.5;
+}
+
+.products-price {
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 4px;
+	width: 80px;
+	height: 23px;
+	border: 1px solid #dcdcdc;
+	border-radius: 7px;
+	background-color: #FFFFFF;
+	font-family: "RobotoSlabRegular", Arial, "Helvetica CY", "Nimbus Sans L", sans-serif;
+	font-size: 12px;
+	line-height: 23px;
+	text-align: center;
+	color: #7b7b7b;
+}
+
+.products-price span {
+	font-size: 8px;
+	line-height: 23px;
+}
+
+.products-time-remaining {
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 4px;
+	width: 100px;
+	height: 23px;
+	border: 1px solid #dcdcdc;
+	border-radius: 7px;
+	background-color: #FFFFFF;
+	font-family: "RobotoSlabRegular", Arial, "Helvetica CY", "Nimbus Sans L", sans-serif;
+	font-size: 12px;
+	line-height: 23px;
+	text-align: left;
+	color: #7b7b7b;
+}
+
+.products-time-remaining-img {
+	float: left;
+	display: inline-block;
+	margin-top: 3px;
+	margin-left: 3px;
+	margin-right: 8px;
+	width: 17px;
+	height: 17px;
+	background-image: url("../images/sand.png");
+	background-size: cover;
+	opacity: 0.5;
+}
+
+.products-nickname {
+	margin-left: auto;
+	margin-right: auto;
+	width: 180px;
+	height: 23px;
+	font-family: "RobotoSlabRegular", Arial, "Helvetica CY", "Nimbus Sans L", sans-serif;
+	font-size: 14px;
+	line-height: 23px;
+	color: #333333;
+	text-align: center;
+}
+
+.products-bet {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 165px;
+	min-height: 28px;
+	border-radius: 14px;
+	box-shadow: 0 2px 2px rgba(44,165,176,1);
+	background-color: #32c5d2;
+	font-family: "RobotoSlabRegular", Arial, "Helvetica CY", "Nimbus Sans L", sans-serif;
+	font-size: 12px;
+	line-height: 28px;
+	color: #FFFFFF;
+	text-align: center;
+	text-decoration: none;
+}
+
+
+.modalDialog {
+	position: fixed;
+	font-family: Arial, Helvetica, sans-serif;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background: rgba(0,0,0,0.8);
+	z-index: 99999;
+	-webkit-transition: opacity 400ms ease-in;
+	-moz-transition: opacity 400ms ease-in;
+	transition: opacity 400ms ease-in;
+	display: none;
+	pointer-events: none;
+}
+
+.modalDialog:target {
+	display: block;
+	pointer-events: auto;
+}
+
+.modalDialog > div {
+	width: 400px;
+	position: relative;
+	margin: 10% auto;
+	padding: 5px 20px 13px 20px;
+	border-radius: 10px;
+	background: #fff;
+	background: -moz-linear-gradient(#fff, #999);
+	background: -webkit-linear-gradient(#fff, #999);
+	background: -o-linear-gradient(#fff, #999);
+	font-size:25px;
+}
+
+.close {
+	background: #606061;
+	color: #FFFFFF;
+	line-height: 25px;
+	position: absolute;
+	right: -12px;
+	text-align: center;
+	top: -10px;
+	width: 24px;
+	text-decoration: none;
+	font-weight: bold;
+	-webkit-border-radius: 12px;
+	-moz-border-radius: 12px;
+	border-radius: 12px;
+	-moz-box-shadow: 1px 1px 3px #000;
+	-webkit-box-shadow: 1px 1px 3px #000;
+	box-shadow: 1px 1px 3px #000;
+}
+
+.close:hover { background: #00d9ff; }
+
+.not-started {
+    background-color: #616161;
+    box-shadow: 0 2px 2px rgba(100,100,100,1);
+}
+
+.end {
+    width: 100%;
+    min-height: 36px;
+    border-radius: 2px;
+    background-color: #BBBBBB;
+    box-shadow: none;
+    font-size: 15px;
+}
+
+.input-answer {
+	border-radius: 8px;
+	border-width: 1px;
+	border-color: #BBBBBB;
+	width: 80px;
+	margin-left: 70px;
+	vertical-align: baseline;
+}
+
+.label-answer {
+	display: block;
+	font-family: "OpenSansLight";
+	font-size: 12px;
+	float: top;
+}
+
+.product-wrapper{
+    display: inline-block;
+    width: 152px;   
+    margin-left: 101px;
+}
+
+.rates-block {
+	background-color: #FFFFFF;
+	width: 100%;
+	height: 154px;
+	border: 1px solid rgb(220, 220, 220);
+	
+}
+
+.white {
+	background-color: rgb(250, 250, 250);
+	margin-top: 33px;
+	border: 1px solid rgb(197, 197, 197);
+	border-radius: 8px;
+}
+
+.container-caption {
+	height: 40px;
+	background-color: rgb(220, 220, 220);
+	border-color: rgb(193, 193, 193);
+	border-radius: 8px 8px 0px 0px;
+}
+
+.caption-text {
+	padding: 12px 0px 13px 23px;
+	font-size: 16px;
+	font-family: "OpenSansBold";
+	color: rgb(98, 98, 98);
+}
+
+.description {
+	font-size: 14px;
+	font-family: "OpenSansRegular";
+}
+
+.container-description {
+	padding: 23px 19px 0px 23px;
+}
+
+.attention {
+	color: rgb(120, 212, 221);
+}
+
+.rate-img {
+	text-align: center;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.rates {
+	margin-top: 19px;
+}
+
+.rates-caption {
+	font-size: 13px;
+	font-family: "OpenSansRegular";
+	margin-left: 23px;
+	margin-top: 59px;
+}
+
+.rate-radio {
+	display: inline-block;
+}
+
+.rate-label {
+	font-size: 10px;
+	font-family: "OpenSansRegular";
+}
+.payment-block {
+	margin-top: 52px;
+}
+
+.payment-caption {
+	margin-left: 23px;
+	font-size: 13px;
+	font-family: "OpenSansRegular";
+	
+}
+
+.payment {
+	display: inline-block;
+	margin-top: 24px;
+	margin-left: 101px;
+	margin-right: 112px;
+}
+
+.payment-btn-block {
+	margin-top: 58px;
+}
+
+.payment-btn {
+	width: 202px;
+	height: 42px;
+	line-height: 42px;
+	border-radius: 25px;
+	font-size: 16px;
+	font-family: "OpenSansRegular";
+	margin-bottom: 29px; 
+}
+
+.btn-feedback {
+	width: 121px;
+    height: 49px;
+    font-family: 'OpenSansBold';
+    font-size: 14px;
+    line-height: 49px;
+    border-radius: 40px;
+}
+
+/* auction detailed */
+.auction-name {
+	font-family: "OpenSansSemiBold";
+    font-size: 18px;
+}
+
+.light {
+	font-family: "OpenSansLight";
+}
+
+.info {
+	font-size: 14px;
+}
+
+.caption {
+	font-family: "OpenSansBold";
+}
+
+.description {
+	font-family: "OpenSansRegular";
+	word-wrap: break-word;
+}
+
+.btn-buy {
+	display: block;   
+	margin-left: auto;   
+	margin-right: auto;   
+	width: 165px;   
+	min-height: 28px;   
+	border-radius: 14px;   
+	box-shadow: 0 2px 2px rgba(44,165,176,1);   
+	background-color: #32c5d2;   
+	font-family: "OpenSansRegular";   
+	font-size: 12px;   
+	line-height: 28px;   
+	color: #FFFFFF;   
+	text-align: center;   
+	text-decoration: none;
+}
+
+.btn-buy:hover {
+	text-decoration: none;
+	color: #FFFFFF;
+}
+
+.winner {
+    text-align: center;
+    line-height: 41px;
+    color: rgb(123, 123, 123);
+    font-family: "OpenSansLight";
+    font-size: 18px;
+}
+
+.condition {
+	font-family: "OpenSansBold";
+    color: #000000;
+    font-size: 14px;
+	margin-left: 84px;
+}
+
+.condition-desc {
+	font-family: "OpenSansLight";
+}
