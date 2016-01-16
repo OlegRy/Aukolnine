@@ -1,5 +1,13 @@
 <div class="products">
 			<div class="container">
+				<? if ($aukcion == 'Аукционы') { ?>
+					<div style = "margin-top:50px;height:50px;">
+						<font style = "color:black;">Сортировать по:</font>
+						<a style = "margin-left:20px;text-decoration:none;color:black;" href = "#" onclick="sortByTime('aukcion');">Времени</a>
+						<a style = "margin-left:10px;text-decoration:none;color:black;" href = "#" onclick="sortByCategory('aukcion');">Категории</a>
+						<a style = "" class = "button" href = "/rate"><font style = "line-height:30px;">Купить  ставки</font></a>
+					</div>
+				<? } ?>
 				<? foreach ($auct as $auction) {
 					if (isset($user_aucts)) 
 						foreach ($user_aucts as $user_auct) {

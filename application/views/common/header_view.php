@@ -37,6 +37,7 @@
 		<script type="text/javascript" src="/js/application.js"></script>
 		<script type="text/javascript" src="/js/captcha.js"></script>
 		<script type="text/javascript" src="/js/rate.js"></script>
+		<script type="text/javascript" src="/js/sorter.js"></script>
 		<!--[if lt IE 9]>      
 		   <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->

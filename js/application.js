@@ -17,7 +17,7 @@ function rate(auct_id){
                 var hasBot = data.auction.has_bot;
                 var fullPrice = data.auction.full_price;
                 var divRates = $('#rates');
-                new_price += '<span> руб.</span>';
+                if (!divRates) new_price += '<span> руб.</span>';
                 $('#price_' + auct_id).html(new_price);
                 $('#login_' + auct_id).html(new_login);
                 if (divRates) {
@@ -105,74 +105,66 @@ function showAuction(id) {
     });
 }
 
-function getCookie(c_name) { 
-    var i, x, y, ARRcookies = document.cookie.split(";"); 
-    for (i = 0; i < ARRcookies.length; i++) { 
-        x = ARRcookies[i].substr(0, ARRcookies[i].indexOf("=")); 
-        y = ARRcookies[i].substr(ARRcookies[i].indexOf("=") + 1); 
-        x = x.replace(/^\s+|\s+$/g, ""); 
-        if (x == c_name) { 
-            return unescape(y); 
-        } 
-    } 
-} 
-
-function setCookie(c_name, value, exdays) { 
-    var exdate = new Date(); 
-    exdate.setDate(exdate.getDate() + exdays); 
-    var c_value = escape(value) + ((exdays == null) ? "" : "; expires=" + exdate.toUTCString()); 
-    document.cookie = c_name + "=" + c_value; 
-}
-
 function resetTimer(id, hasBot, fullPrice) {
-    setCookie('countdown_' + id, 15, 3);
     $('#timer_' + id).countdown('destroy');
-    startTimer(id, hasBot, fullPrice);
-} 
-
-function deleteCookie(name) { 
-    var c = document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;'; 
+    $.ajax({
+        type: 'POST',
+        url: '/aukcion/updateTimer',
+        data: { 'id' : id, 'timer' : 15 },
+        success: function(data) {
+            startTimer(id, hasBot, fullPrice);        
+        }
+    });
     
-}
+} 
 
 function startTimer(id, hasBot, fullPrice) {
-    if(!getCookie('countdown_' + id))
-        setCookie('countdown_' + id, 15, 3);
-    $('#timer_' + id).countdown({ until: +getCookie('countdown_' + id), format: 'HMS', compact: true, onTick: function(periods) {
-        if (periods[6] < 2 && periods[6] > 0 && hasBot) {
-            ratesNum(id, function(output) {
-                if (10 * output < fullPrice + 2000) {
+    $.ajax({
+        type: 'GET',
+        url: '/aukcion/timer',
+        data: { 'id' : id },
+        success: function(data) {
+            data = parseInt(data);
+            $('#timer_' + id).countdown({ until: +data, format: 'MS', compact: true, onTick: function(periods) {
+                if (periods[6] > 1) {
                     $.ajax({
                         type: 'POST',
-                        url: '/auth/rate',
-                        data: {'id': id, 'is_bot': true },
-                        success: function(data) {
-                            var data = JSON.parse(data);
-                            var new_price = data.auction.price;
-                            var new_login = data.auction.login;
-                            var divRates = $('#rates');
-                            new_price += '<span> руб.</span>';
-                            $('#price_' + id).html(new_price);
-                            $('#login_' + id).html(new_login);
-                            if (divRates) {
-                                var newDiv = '<div style="font-size: 12px;color: rgb(174, 174, 174);margin-left: 5px;margin-right: 5px;overflow: auto;"><div style="display: inline-block;">' + data.date + '</div><div style="display: inline-block;margin-left: 17px;">' + new_login + '</div><div style="display: inline-block;margin-left: 23px;">' + data.auction.price + ' руб.</div></div>'
-                                divRates.prepend(newDiv);
+                        url: '/aukcion/updateTimer',
+                        data: { 'id' : id, 'timer' : periods[6] }
+                    });
+                } else if (periods[6] == 1) {
+                    if (hasBot) {
+                        ratesNum(id, function(output) {
+                            if (10 * output < fullPrice + 2000) {
+                                $.ajax({
+                                    type: 'POST',
+                                    url: '/auth/rate',
+                                    data: {'id': id, 'is_bot': true },
+                                    success: function(data) {
+                                        resetTimer(id, hasBot, fullPrice);
+                                        var data = JSON.parse(data);
+                                        var new_price = data.auction.price;
+                                        var new_login = data.auction.login;
+                                        var divRates = $('#rates');
+                                        new_price += '<span> руб.</span>';
+                                        $('#price_' + id).html(new_price);
+                                        $('#login_' + id).html(new_login);
+                                        if (divRates) {
+                                            var newDiv = '<div style="font-size: 12px;color: rgb(174, 174, 174);margin-left: 5px;margin-right: 5px;overflow: auto;"><div style="display: inline-block;">' + data.date + '</div><div style="display: inline-block;margin-left: 17px;">' + new_login + '</div><div style="display: inline-block;margin-left: 23px;">' + data.auction.price + ' руб.</div></div>'
+                                            divRates.prepend(newDiv);
+                                        }
+                                        
+                                    }
+                                });    
+                            } else {
+                                setEndOfAuction(id);
                             }
-                            resetTimer(id, hasBot, fullPrice);
-                        }
-                    });    
-                }  
-            });
-                
-                
-        } else {
-            setCookie('countdown_' + id, periods[6]);
+                        });
+                    }
+                }
+            }});
         }
-        if (periods[6] == 0) {
-            setEndOfAuction(id);
-        }
-        
-    }});
+    });
 } 
 
 function setEndOfAuction(id) {

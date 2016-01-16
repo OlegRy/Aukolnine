@@ -15,7 +15,20 @@ class Auctions_model extends CI_Model
 		return $result;
 	}
 
-	public function all() {
+	public function all($type) {
+		switch ($type) {
+			case 1:
+				$this->db->order_by('start_time', 'desc');		
+				break;
+			case 2:
+				$this->db->order_by('category', 'desc');
+				break;
+			case 3:
+				$this->db->order_by('genre', 'desc');
+				break;
+			default:
+				break;
+		}
 		$query = $this->db->get('ay_lots');
 		$result = $query->result();
 		return $result;
@@ -42,7 +55,20 @@ class Auctions_model extends CI_Model
 
 	}
 
-	public function game_zones() {
+	public function game_zones($type) {
+		switch ($type) {
+			case 1:
+				$this->db->order_by('start_time', 'desc');		
+				break;
+			case 2:
+				$this->db->order_by('category', 'desc');
+				break;
+			case 3:
+				$this->db->order_by('genre', 'desc');
+				break;
+			default:
+				break;
+		}
 		$query = $this->db->get_where('ay_lots', array('game_zone' => 1));
 		$result = $query->result();
 		return $result;
@@ -64,5 +90,19 @@ class Auctions_model extends CI_Model
 		$query = $this->db->query("SELECT COUNT(*) FROM ay_lots_users WHERE auction_id = " . $get['id']);
 		$result = $query->result();
 		return $result;
+	}
+
+	public function getTimer($get) {
+		$this->db->select('timer');
+		$query = $this->db->get_where('ay_lots', $get);
+		$result = $query->result();
+		return $result;
+	}
+
+	public function updateTimer($post) {
+		$this->db->where('id', $post['id']);
+		$data = array('timer' => $post['timer']);
+		$this->db->update('ay_sample', $data);
+		return true;
 	}
 }
