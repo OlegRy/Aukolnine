@@ -4,7 +4,15 @@
           $contains = true;
           break;
         }
-      } 
+      }
+  if (isset($autorates)) 
+    foreach ($autorates as $autorate) {
+      if ($auction[0]->id == $autorate->auction_id) {
+        $seconds_value = $autorate->second_value;
+        $rates_count = $autorate->rates_count;
+        break;
+      }   
+    }
 ?>
 <div class="page-container">
   <div class="page-content" style="min-height:349px">
@@ -33,6 +41,41 @@
                       КУПИТЬ СТАВКИ
                     </a>
                   </div>
+                  <?if (!$auction[0]->is_ended):?>
+                    <div class="font-hg theme-font" style="margin-top: 1em;">
+                      <div style="text-align: center">Автоставка</div>
+                      <div class="onoffswitch" style="margin-top: 0.3em;">
+                        <input type="checkbox" <?if (isset($seconds_value)) {?> checked <?}?> name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" onchange="switchAutorate(<?= $auction[0]->id ?>, '<?= $this->session->userdata('ay_login') ?>'  ); return false;">
+                        <label class="onoffswitch-label" for="myonoffswitch">
+                          <span class="onoffswitch-inner"></span>
+                          <span class="onoffswitch-switch"></span>
+                        </label>
+                      </div>
+                      <div class="second-value">
+                        <div style="margin: 0 auto; width: 74%;">
+                          <label for="seconds_value" class="seconds-label">Показатель таймера</label>
+                          <?if (isset($seconds_value)){?>
+                            <input type="text" name="seconds" value="<?=$seconds_value?>" id="seconds_value" class="second-input">
+                          <?}else{?>
+                            <input type="text" name="seconds" value="7" id="seconds_value" class="second-input" disabled>
+                          <?}?>
+                        </div>
+                        <div style="margin: 0 auto; width: 74%;">
+                          <label for="rates_count" class="seconds-label">Количество ставок</label>
+                          <?if (isset($seconds_value)){?>
+                            <input type="text" name="rates" value="<?=$rates_count?>" id="rates_count" class="second-input">
+                          <?}else{?>
+                            <input type="text" name="rates" value="500" id="rates_count" class="second-input" disabled>
+                          <?}?>
+                        </div>
+                        <div style="margin-top:0.3em;">
+                          <button style="width: 50px;" <?if (!isset($seconds_value)){?> disabled <?}?> class="btn-buy" id="btn_ok" onclick="enableAutorate(<?= $auction[0]->id?>, '<?=$this->session->userdata('ay_login')?>'); return false;">                          
+                            ОК
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  <?endif;?>
                 <div class="font-hg theme-font" style="margin-top: 1em;">
                   <div style="
                     width: 311px;
@@ -112,11 +155,21 @@
                             text-align: center;
                             padding-top: 6px;">
                             <? if (strtotime($auction[0]->start_time) - time() <= 0) {?>
-                              <a id="rate_<?= $auction[0]->id ?>" href="#" onclick="rate(<?= $auction[0]->id ?>);return false;" class="products-bet">СДЕЛАТЬ СТАВКУ <br></a>
+                              <?if (isset($seconds_value)){?>
+                                <a id="rate_<?= $auction[0]->id ?>" href="#" onclick="return rate(<?= $auction[0]->id ?>, <?=$seconds_value?>, <?=$rates_count?>);" class="products-bet">СДЕЛАТЬ СТАВКУ <br></a>
+                              <?}else{?>
+                                <a id="rate_<?= $auction[0]->id ?>" href="#" onclick="return rate(<?= $auction[0]->id ?>);" class="products-bet">СДЕЛАТЬ СТАВКУ <br></a>
+                              <?}?>
                               <span style="color: rgb(172, 172, 172);" id="timer_<?= $auction[0]->id ?>">
-                                <script>
-                                  startTimer(<?= $auction[0]->id ?>, <?= $auction[0]->has_bot ?>, <?= $auction[0]->full_price ?>);
-                                </script>
+                                <?if (isset($seconds_value)){?>
+                                  <script>
+                                    startTimer(<?= $auction[0]->id ?>, <?= $auction[0]->has_bot?>, <?= $auction[0]->full_price ?>, <?=$seconds_value?>, <?=$rates_count?>);
+                                  </script>
+                                <?}else{?>
+                                  <script>
+                                    startTimer(<?= $auction[0]->id ?>, <?= $auction[0]->has_bot?>, <?= $auction[0]->full_price ?>);
+                                  </script>
+                                <?}?>
                               </span> 
                             <? } else { 
                               if (isset($contains) && $contains) {?>
@@ -130,9 +183,15 @@
                               </a>
                               <?}?>
                               <span style="color: rgb(172, 172, 172);" id="timer_<?= $auction[0]->id ?>">
-                                <script>
-                                  refreshTimer(<?= $auction[0]->id ?>, '<?= $auction[0]->start_time ?>', <?= $auction[0]->has_bot ?>, <?= $auction[0]->full_price ?>);
-                                </script>
+                                <?if (isset($seconds_value)) {?>
+                                  <script>
+                                    refreshTimer(<?= $auction[0]->id ?>, '<?= $auction[0]->start_time ?>', <?= $auction[0]->has_bot ?>, <?= $auction[0]->full_price ?>, <?=$seconds_value?>, <?=$rates_count?>);
+                                  </script>
+                                <?}else{?>
+                                  <script>
+                                    refreshTimer(<?= $auction[0]->id ?>, '<?= $auction[0]->start_time ?>', <?= $auction[0]->has_bot ?>, <?= $auction[0]->full_price ?>);
+                                  </script>
+                                <?}?>
                               </span>
                             <?}?>
                           </p>

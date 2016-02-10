@@ -47,4 +47,12 @@ class Admin_model extends CI_Model
 		//echo "<pre>";print_r($result);exit;
 		return $result;
 	}
+	
+	public function type_site()
+	{
+		$query = $this->db->query("SELECT type_site as 'Тип', COUNT(type_site) as 'Количество пользователей' FROM ay_users GROUP BY type_site");
+		$result = $query->result();
+		//echo "<pre>";print_r($result);exit;
+		return $result;
+	}
 }

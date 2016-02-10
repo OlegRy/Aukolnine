@@ -22,6 +22,7 @@ class Admin extends CI_Controller {
 		$data['gender'] = $this->admin_model->gender();
 		$data['rate'] = $this->admin_model->rate();
 		$data['products'] = $this->admin_model->products();
+		$data['type_site'] = $this->admin_model->type_site();
 		//$data['array_count'] = count($data['age']);
         $this->load->view('admin_view', $data);
     }
@@ -62,6 +63,8 @@ class Admin extends CI_Controller {
 		$post['image'] = $image_filename;
 		$post['price'] = $_POST['price'];
 		$post['full_price'] = $_POST['full_price'];
+		$post['genre'] = $_POST['game_genre'];
+		$post['category'] = $_POST['category'];
 		$post['login'] = $login;
 		$post['text'] = $_POST['auk_text'];
 		$post['ticket'] = $_POST['ticket'];

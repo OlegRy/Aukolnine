@@ -759,6 +759,12 @@ body {
 	color: #FFFFFF;
 }
 
+.btn-buy:disabled {
+	background-color: #BBBBBB;
+	box-shadow: none;
+	border: 1px solid #000000;
+}
+
 .winner {
     text-align: center;
     line-height: 41px;
@@ -776,4 +782,22 @@ body {
 
 .condition-desc {
 	font-family: "OpenSansLight";
+}
+
+.second-value {
+	margin-top: 0.3em;
+}
+
+.second-input {
+	margin: 0 auto;
+	border: 1px solid #BBBBBB;
+	border-radius: 8px;
+	width: 10%;
+	font-size: 0.8em;
+}
+
+.seconds-label {
+	margin: 0 auto;
+	font-size: 0.5em;
+	color: #B6B6B6;
 }

@@ -11,11 +11,19 @@
 				<? foreach ($auct as $auction) {
 					if (isset($user_aucts)) 
 						foreach ($user_aucts as $user_auct) {
-					 		if ($auction->id == $user_auct->auction_id) {
+					 		if ($auction->id == $user_auct->auction_id && !$auction->is_ended) {
 					 			$contains = true;
 					 			break;
 					 		}
-					 	} 
+					 	}
+					if (isset($autorates))
+						foreach ($autorates as $autorate) {
+						 	if ($auction->id == $autorate->auction_id) {
+						 		$seconds_value = $autorate->second_value;
+						 		$rates_count = $autorate->rates_count;
+						 		break;
+						 	}
+						} 
 				?>
 
 						<div class="products-block">
@@ -40,13 +48,25 @@
 									<div id="remaining_<?=$auction->id?>" class="products-time-remaining-img"></div>
 									<div id="timer_<?= $auction->id ?>">
 										<? if (strtotime($auction->start_time) - time() <= 0) { ?>
-											<script>
-												startTimer(<?= $auction->id ?>, <?= $auction->has_bot?>, <?= $auction->full_price ?>);
-											</script>
+											<?if (isset($seconds_value)){?>
+												<script>
+													startTimer(<?= $auction->id ?>, <?= $auction->has_bot?>, <?= $auction->full_price ?>, <?=$seconds_value?>, <?=$rates_count?>);
+												</script>
+											<?}else{?>
+												<script>
+													startTimer(<?= $auction->id ?>, <?= $auction->has_bot?>, <?= $auction->full_price ?>);
+												</script>
+											<?}?>
 										<? } else { ?>
-											<script>
-		                        				refreshTimer(<?= $auction->id ?>, '<?= $auction->start_time ?>', <?= $auction->has_bot ?>, <?= $auction->full_price ?>);
-		                      				</script>
+											<?if (isset($seconds_value)) {?>
+												<script>
+			                        				refreshTimer(<?= $auction->id ?>, '<?= $auction->start_time ?>', <?= $auction->has_bot ?>, <?= $auction->full_price ?>, <?=$seconds_value?>, <?=$rates_count?>);
+			                      				</script>
+			                      			<?}else{?>
+			                      				<script>
+		                        					refreshTimer(<?= $auction->id ?>, '<?= $auction->start_time ?>', <?= $auction->has_bot ?>, <?= $auction->full_price ?>);
+		                      					</script>
+		                      				<?}?>
 		                      			<? } ?>
 		                      		</div>
 		                      	<? } else { ?>
@@ -74,10 +94,17 @@
 			                    		</a>
 			                    	<? } ?>
 		                    	<? } else { ?>
-		                    		<a href="#" id="rate_<?= $auction->id ?>" onclick="rate(<?= $auction->id ?>);return false;" class="products-bet"
-		                                  <? if (!$this->session->userdata('ay_login')) { ?> onmouseover="onMouseOver(<?= $auction->id ?>)" onmouseout="onMouseOut(<?= $auction->id ?>, 'СДЕЛАТЬ СТАВКУ')" <? } ?>>
-		                    			СДЕЛАТЬ СТАВКУ
-		                  			</a>
+		                    		<?if (isset($seconds_value)) {?>
+			                    		<a href="#" id="rate_<?= $auction->id ?>" onclick="return rate(<?= $auction->id ?>, <?= $seconds_value?>, <?=$rates_count?>);" class="products-bet"
+			                                  <? if (!$this->session->userdata('ay_login')) { ?> onmouseover="onMouseOver(<?= $auction->id ?>)" onmouseout="onMouseOut(<?= $auction->id ?>, 'СДЕЛАТЬ СТАВКУ')" <? } ?>>
+			                    			СДЕЛАТЬ СТАВКУ
+			                  			</a>
+			                  		<?} else {?>
+			                  			<a href="#" id="rate_<?= $auction->id ?>" onclick="return rate(<?= $auction->id ?>);" class="products-bet"
+			                                  <? if (!$this->session->userdata('ay_login')) { ?> onmouseover="onMouseOver(<?= $auction->id ?>)" onmouseout="onMouseOut(<?= $auction->id ?>, 'СДЕЛАТЬ СТАВКУ')" <? } ?>>
+			                    			СДЕЛАТЬ СТАВКУ
+			                  			</a>
+			                  		<?}?>
 		                  		<? } ?>
 		                  	<? } else { ?>
 								<a class="products-bet end">

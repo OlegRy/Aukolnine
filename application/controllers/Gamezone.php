@@ -13,6 +13,9 @@ class Gamezone extends CI_Controller {
 		$this->lang->load('auth', $this->language_lib->detect());
 		$data['aukcion'] = 'Gamezone';
 		$this->load->model('auctions_model');
+		if ($this->session->userdata('ay_login')) {
+			$data['autorates'] = $this->auctions_model->autorates($this->session->userdata('ay_login'));
+		}
 		$data['auct'] = $this->auctions_model->game_zones($sortType);
 		$this->load->view('/common/header_view',$data);
 		$this->load->view('gamezone_view',$data);

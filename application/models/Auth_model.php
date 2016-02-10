@@ -11,6 +11,10 @@ class Auth_model extends CI_Model
 	
 	public function insert($post)
 	{
+		$query = $this->db->get('ay_users', $post);
+		if ($query->num_rows() > 0) {
+			return false;
+		}
 		$this->db->insert('ay_users', $post);
 		return true;
 	}

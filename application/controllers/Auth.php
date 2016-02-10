@@ -16,8 +16,10 @@ class Auth extends CI_Controller {
 		
 		$data['auct'] = $this->auctions_model->lastFive();
 		$data['aukcion'] = 'Авторизация';
-		if ($this->session->userdata('ay_login'))
+		if ($this->session->userdata('ay_login')) {
 			$data['user_aucts'] = $this->auctions_model->has_user($this->session->userdata('ay_login'));
+			$data['autorates'] = $this->auctions_model->autorates($this->session->userdata('ay_login'));
+		}
 		$this->load->view('/common/header_view',$data);
 		$this->load->view('auth_view',$data);
 		$this->load->view('auctions_view', $data);
@@ -32,8 +34,12 @@ class Auth extends CI_Controller {
 			$post['password'] = md5($_POST['password']);
 			$post['login'] = $_POST['login'];
 			$post['promocod'] = $_POST['promo'];
-			$this->auth_model->insert($post);
-			redirect('/auth');
+			$result = $this->auth_model->insert($post);
+			if ($result) redirect('/auth');
+			else {
+				echo "<script>alert('Пользователь с такими данными уже существует'); window.location = '/#openModal';</script>";
+				redirect('/#openModal');
+			}
 		}
 	}
 	

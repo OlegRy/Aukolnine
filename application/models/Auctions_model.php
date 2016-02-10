@@ -49,7 +49,8 @@ class Auctions_model extends CI_Model
 	}
 
 	public function has_user($user_login) {
-		$query = $this->db->query('SELECT auction_id FROM ay_lots_users lu WHERE lu.user_id IN (SELECT id FROM ay_users WHERE login = "' . $this->db->escape_str($user_login) . '")');
+		$sql = "SELECT auction_id FROM ay_lots_users lu INNER JOIN ay_lots l ON lu.auction_id = l.id INNER JOIN ay_users u ON lu.user_id = u.id WHERE lu.is_rate = 0 AND u.login = '".$user_login."'";
+		$query = $this->db->query($sql);
 		$result = $query->result();
 		return $result;
 
@@ -104,5 +105,35 @@ class Auctions_model extends CI_Model
 		$data = array('timer' => $post['timer']);
 		$this->db->update('ay_sample', $data);
 		return true;
+	}
+
+	public function enableAutorate($post) {
+		$auction_id = $post['auction_id'];
+		$user_id = $post['user_id'];
+		$second_value = $post['second_value'];
+		$rates_count = $post['rates_count'];
+		$sql = "INSERT INTO ay_autorates (auction_id, user_id, second_value, rates_count) VALUES (".$auction_id.", ".$user_id.", ".$second_value.", ".$rates_count.") ON DUPLICATE KEY UPDATE second_value = ".$second_value.", rates_count = ".$rates_count;
+		$this->db->query($sql);
+		return true;
+	}
+
+	public function disableAutorate($post) {
+		$this->db->delete('ay_autorates', array('user_id' => $post['user_id'], 'auction_id' => $post['auction_id']));
+		return true;
+	}
+
+	public function autorates($login) {
+		$sql = "SELECT ar.user_id, ar.auction_id, ar.rates_count, ar.second_value FROM ay_autorates ar INNER JOIN ay_users ON ar.user_id = ay_users.id WHERE ay_users.login = '".$login."'";
+		$query = $this->db->query($sql);
+		$result = $query->result();
+		return $result;
+	}
+
+	public function get_all_by_login($post) {
+		$login = $post['login'];
+		$sql = "SELECT l.id, l.name, l.image, l.price, l.full_price, l.start_time, l.end_date, l.login, l.is_ended, l.game_zone, l.text, l.has_bot, l.ticket, l.timer, l.category, l.genre FROM ay_lots l INNER JOIN ay_lots_users lu ON l.id = lu.auction_id INNER JOIN ay_users u ON u.id = lu.user_id WHERE u.login = '".$login."' GROUP BY l.id";
+		$query = $this->db->query($sql);
+		$result = $query->result();
+		return $result;
 	}
 }

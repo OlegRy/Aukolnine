@@ -1,4 +1,4 @@
-function rate(auct_id){
+function rate(auct_id, seconds_value, rates_count){
     $.ajax({
         type: 'POST',
         url: '/auth/rate',
@@ -24,11 +24,16 @@ function rate(auct_id){
                     var newDiv = '<div style="font-size: 12px;color: rgb(174, 174, 174);margin-left: 5px;margin-right: 5px;overflow: auto;"><div style="display: inline-block;">' + data.date + '</div><div style="display: inline-block;margin-left: 17px;">' + new_login + '</div><div style="display: inline-block;margin-left: 23px;">' + new_price + ' руб.</div></div>'
                     divRates.prepend(newDiv);
                 }
-                resetTimer(auct_id, hasBot, fullPrice);
+                if (typeof(seconds_value) != 'undefined') {
+                    resetTimer(auct_id, hasBot, fullPrice, seconds_value, rates_count - 1);
+                } else {
+                    resetTimer(auct_id, hasBot, fullPrice);
+                }
 
             }
         }
     });
+    return false;
 }
 
 function apply(auct_id) {
@@ -52,7 +57,7 @@ function apply(auct_id) {
     });
 }
 
-function refreshTimer(auct_id, startDate, hasBot, fullPrice) {
+function refreshTimer(auct_id, startDate, hasBot, fullPrice, seconds_value, rates_count) {
     if (startDate) {
         $('#timer_' + auct_id).countdown({ until: new Date(startDate), format: 'HMS', compact: true, onTick: function(periods) {
             if (periods[4] == 0 && periods[5] == 0 && periods[6] == 0) {
@@ -61,7 +66,7 @@ function refreshTimer(auct_id, startDate, hasBot, fullPrice) {
                 var button = $('#rate_' + auct_id);
                 login.html('');
                 timer.countdown('destroy');
-                timer.html('<script>startTimer(' + auct_id + ', ' + hasBot + ', ' + fullPrice + ');</script>');
+                timer.html('<script>startTimer(' + auct_id + ', ' + hasBot + ', ' + fullPrice + ', ' + seconds_value + ', ' + rates_count + ');</script>');
                 console.log(my_session);
                 if (!my_session) {
 
@@ -105,33 +110,46 @@ function showAuction(id) {
     });
 }
 
-function resetTimer(id, hasBot, fullPrice) {
+function resetTimer(id, hasBot, fullPrice, seconds_value, rates_count) {
+    if (typeof(seconds_value) != 'undefined') {
+        var username = $('#username_header').html();
+        if (rates_count != 0) {
+            enableAutorate(id, username, true);
+            updateRatesCountField(rates_count);
+        } else disableAutorate(id, username);
+        
+    }
     $('#timer_' + id).countdown('destroy');
     $.ajax({
         type: 'POST',
         url: '/aukcion/updateTimer',
         data: { 'id' : id, 'timer' : 15 },
         success: function(data) {
-            startTimer(id, hasBot, fullPrice);        
+            startTimer(id, hasBot, fullPrice, seconds_value, rates_count);        
         }
     });
     
 } 
 
-function startTimer(id, hasBot, fullPrice) {
+function startTimer(id, hasBot, fullPrice, seconds_value, rates_count) {
     $.ajax({
         type: 'GET',
         url: '/aukcion/timer',
         data: { 'id' : id },
         success: function(data) {
+            console.log(data);
             data = parseInt(data);
             $('#timer_' + id).countdown({ until: +data, format: 'MS', compact: true, onTick: function(periods) {
                 if (periods[6] > 1) {
-                    $.ajax({
-                        type: 'POST',
-                        url: '/aukcion/updateTimer',
-                        data: { 'id' : id, 'timer' : periods[6] }
-                    });
+                    if (typeof(seconds_value) != 'undefined' && periods[6] == seconds_value) {
+                        if (rates_count != 0) rate(id, seconds_value, rates_count);
+                    } else {
+                        $.ajax({
+                            type: 'POST',
+                            url: '/aukcion/updateTimer',
+                            data: { 'id' : id, 'timer' : periods[6] }
+                        });
+                     }
                 } else if (periods[6] == 1) {
                     if (hasBot) {
                         ratesNum(id, function(output) {
@@ -141,7 +159,7 @@ function startTimer(id, hasBot, fullPrice) {
                                     url: '/auth/rate',
                                     data: {'id': id, 'is_bot': true },
                                     success: function(data) {
-                                        resetTimer(id, hasBot, fullPrice);
+                                        resetTimer(id, hasBot, fullPrice, seconds_value, rates_count);
                                         var data = JSON.parse(data);
                                         var new_price = data.auction.price;
                                         var new_login = data.auction.login;
@@ -160,7 +178,11 @@ function startTimer(id, hasBot, fullPrice) {
                                 setEndOfAuction(id);
                             }
                         });
+                    } else {
+                        setEndOfAuction(id);
                     }
+                } else if (periods[6] == 0) {
+                    setEndOfAuction(id);
                 }
             }});
         }
@@ -216,4 +238,56 @@ function ratesNum(id, returnCount) {
             }
         }
     });
+}
+
+function switchAutorate(auction_id, login) {
+    var switcher = $('#myonoffswitch');
+    if (switcher.attr('checked') != 'checked') {
+        $('#seconds_value').attr('disabled', 'disabled');
+        $('#btn_ok').attr('disabled', 'disabled');
+        $('#rates_count').attr('disabled', 'disabled');
+        disableAutorate(auction_id, login);
+    } else {
+        $('#seconds_value').removeAttr('disabled', 'disabled');
+        $('#btn_ok').removeAttr('disabled', 'disabled');
+        $('#rates_count').removeAttr('disabled', 'disabled');
+    }
+    
+}
+
+function updateRatesCountField(rates_count) {
+    $('#rates_count').val(rates_count);
+} 
+
+function enableAutorate(auction_id, login, is_enabled) {
+    var seconds_value = $('#seconds_value').val();
+    var rates_count = $('#rates_count').val();
+    $.ajax({
+        type: 'POST',
+        url: '/aukcion/enableAutorate',
+        data: { 'auction_id' : auction_id, 'login' : login, 'second_value' : seconds_value, 'rates_count' : rates_count },
+        success: function(data) {
+            if (!is_enabled) {
+                window.location.reload();
+            }
+        },
+        error: function(data) {
+            console.log('error');
+        }
+    });
+}
+
+function disableAutorate(auction_id, login) {
+    $.ajax({
+        type: 'POST',
+        url: '/aukcion/disableAutorate',
+        data: { 'auction_id' : auction_id, 'login' : login },
+        success: function(data) {
+            window.location.reload();
+        },
+        error: function(data) {
+            console.log('error');
+        }
+    });
+
 }

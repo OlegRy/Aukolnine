@@ -8,6 +8,7 @@ class Personal extends CI_Controller {
 		$this->lang->load('auth', $this->language_lib->detect());
 		$login = $this->session->userdata('ay_login');
 		$this->load->model('personal_model');
+		$this->load->model('auctions_model');
 		if(empty($login))
 		{
 			redirect('/auth');
@@ -26,6 +27,10 @@ class Personal extends CI_Controller {
 		$data['personal'] = 'Personal';
 		$post['login'] = $this->session->userdata('ay_login');
 		$data['user'] = $this->personal_model->get($post);
+		$data['auctions'] = $this->auctions_model->all(0);
+		$data['my_auctions'] = $this->auctions_model->get_all_by_login($post);
+		$data['user_aucts'] = $this->auctions_model->has_user($this->session->userdata('ay_login'));
+		$data['autorates'] = $this->auctions_model->autorates($this->session->userdata('ay_login'));
 		$this->load->view('/common/header_view',$data);
 		$this->load->view('personal_view', $data);
 		$this->load->view('/common/footer_view',$data);

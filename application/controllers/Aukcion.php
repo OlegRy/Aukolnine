@@ -8,6 +8,7 @@ class Aukcion extends CI_Controller {
 		parent::__construct();
 		$this->lang->load('auth', $this->language_lib->detect());
 		$this->load->model('auctions_model');
+		$this->load->model('auth_model');
 		$this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
 	} 
 
@@ -20,6 +21,10 @@ class Aukcion extends CI_Controller {
 		}
 		$data['auct'] = $this->auctions_model->all($sortType);
 		$data['aukcion'] = 'Аукционы';
+		if ($this->session->userdata('ay_login')) {
+			$data['user_aucts'] = $this->auctions_model->has_user($this->session->userdata('ay_login'));
+			$data['autorates'] = $this->auctions_model->autorates($this->session->userdata('ay_login'));
+		}
 		$this->load->view('/common/header_view',$data);
 		$this->load->view('aukcion_view',$data);
 		$this->load->view('auctions_view', $data);
@@ -31,8 +36,10 @@ class Aukcion extends CI_Controller {
 		$data['auction'] = $this->auctions_model->getById($get);
 		$data['rates'] = $this->auctions_model->getAllRates();
 		$data['aukcion'] = 'Lot';
-		if ($this->session->userdata('ay_login'))
+		if ($this->session->userdata('ay_login')) {
 			$data['user_aucts'] = $this->auctions_model->has_user($this->session->userdata('ay_login'));
+			$data['autorates'] = $this->auctions_model->autorates($this->session->userdata('ay_login'));
+		}
 		if ($data['auction']) {
 			$this->load->view('/common/header_view',$data);
 			$this->load->view('show_auction', $data);
@@ -86,5 +93,29 @@ class Aukcion extends CI_Controller {
 			$post['timer'] = $_POST['timer'];
 			$this->auctions_model->updateTimer($post);
 		} 
+	}
+
+	public function enableAutorate() {
+		if (isset($_POST) && sizeof($_POST) > 0) {
+			$data['user'] = $_POST['login'];
+			$user = $this->auth_model->getByLogin($data);
+			$post['user_id'] = $user[0]->id;
+			$post['auction_id'] = $_POST['auction_id'];
+			$post['second_value'] = $_POST['second_value'];
+			$post['rates_count'] = $_POST['rates_count'];
+			$added = $this->auctions_model->enableAutorate($post);
+			echo $added;
+		}
+	}
+
+	public function disableAutorate() {
+		if (isset($_POST) && sizeof($_POST) > 0) {
+			$post['auction_id'] = $_POST['auction_id'];
+			$data['user'] = $_POST['login'];
+			$user = $this->auth_model->getByLogin($data);
+			$post['user_id'] = $user[0]->id;
+			$deleted = $this->auctions_model->disableAutorate($post);
+			echo $deleted;
+		}
 	}
 }

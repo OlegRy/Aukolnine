@@ -26,10 +26,11 @@
 			<link href="../../assets/admin/layout3/css/layout.css" rel="stylesheet" type="text/css">
 			<link href="../../assets/admin/layout3/css/themes/default.css" rel="stylesheet" type="text/css" id="style_color">
 			<link href="../../assets/admin/layout3/css/custom.css" rel="stylesheet" type="text/css">
-
 			<!-- END THEME STYLES -->
 		<?endif;?>
 		<link rel="stylesheet" href="/css/styles.css">
+		<link rel="stylesheet" href="/css/switch.css">
+
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 		<script type="text/javascript" src="/js/jquery.plugin.js"></script>
 		<script type="text/javascript" src="/js/jquery.countdown.js"></script>
@@ -96,9 +97,7 @@
 
 				<div class="authorization">
 					<div class="authorization-block">
-						<p class="authorization-link login-btn">
-							<?=$this->session->userdata('ay_login')?>
-						</p>
+						<a href="/personal"><p class="authorization-link login-btn" id="username_header"><?=$this->session->userdata('ay_login')?></p></a>
 					</div>
 
 					<div class="authorization-block">

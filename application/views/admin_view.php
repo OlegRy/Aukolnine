@@ -121,11 +121,16 @@ License: You must have a valid license purchased only from themeforest(the above
 						</div>
 					</div>
 
-
 					<div class="form-group">
 						<label class="col-md-3 control-label">Текст</label>
 						<div class="col-md-4">
 							<textarea class="form-control" placeholder = "Текст" name = "auk_text" id = "auk_text"></textarea>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-md-3 control-label">Категория</label>
+						<div class="col-md-4">
+							<input type="text" class="form-control input-circle" name = "category" placeholder="Категория">
 						</div>
 					</div>
 					<div class="form-group">
@@ -134,15 +139,31 @@ License: You must have a valid license purchased only from themeforest(the above
 						<div class="input-group">
 							<div class="icheck-list">
 								<label>
-									<input type="radio" value = "Auction" name="type_auct" checked class="icheck"> Простые аукционы
+									<input id = "nogen" type="radio" value = "Auction" name="type_auct" onclick = "genre(0);" checked class="icheck"> Простые аукционы
 								</label>
 								<label>
-									<input type="radio" value = "Gamezone" name="type_auct"  class="icheck"> Gamezone
+									<input id = "mygen" type="radio" value = "Gamezone" name="type_auct" onclick = "genre(1);"  class="icheck"> Gamezone
 								</label>
 							</div>
 						</div>
 						</div>
 					</div>
+					<div id = "genre" class="form-group" style = "display:none;">
+						<label class="col-md-3 control-label">Жанр</label>
+						<div class="col-md-4">
+							<input type="text" class="form-control input-circle" name = "game_genre" placeholder="Жанр">
+						</div>
+					</div>
+					<script>
+						function genre(type){
+							if(type == 1){
+								$('#genre').css('display', 'block');
+							} else {
+								$('#genre').css('display', 'none');
+							}
+							
+						}
+					</script>
 					<div class="form-group">
 						<label class="col-md-3 control-label">Аукцион по билетам</label>
 						<div class="col-md-4">
@@ -319,6 +340,37 @@ License: You must have a valid license purchased only from themeforest(the above
 				<div id="chart_5" class="chart" style="height: 400px;">
 					<?echo "<pre>";print_r($products);?>
 				</div>
+			</div>
+		</div>		
+		<!-- END CHART PORTLET-->
+		<!-- BEGIN CHART PORTLET-->
+		<div class="portlet light">
+			<div class="portlet-title">
+				<div class="caption">
+					<i class="icon-bar-chart font-green-haze"></i>
+					<span class="caption-subject bold uppercase font-green-haze">Регистрация</span>
+					<span class="caption-helper">Количество людей, кто зарегистрировался через сайт, а кто через вк</span>
+				</div>
+				<div class="tools">
+					<a href="javascript:;" class="collapse">
+					</a>
+					<a href="#portlet-config" data-toggle="modal" class="config">
+					</a>
+					<a href="javascript:;" class="reload">
+					</a>
+					<a href="javascript:;" class="fullscreen">
+					</a>
+					<a href="javascript:;" class="remove">
+					</a>
+				</div>
+			</div>
+			<div class="portlet-body">
+				<div id="chart_5" class="chart" style="height: 400px;">
+					<?echo "<pre>";print_r($type_site);?>
+				</div>
+				
+			 <p>0 - это сам сайт<p>
+			 <p>1 - это вк</p>
 			</div>
 		</div>		
 		<!-- END CHART PORTLET-->
